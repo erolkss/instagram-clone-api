@@ -2,6 +2,7 @@ package br.com.ero.instagram_web_api.controllers;
 
 import br.com.ero.instagram_web_api.dto.UserRegisterDto;
 import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
+import br.com.ero.instagram_web_api.dto.responsesdto.UserRegisterResponseDto;
 import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.services.UserService;
@@ -22,14 +23,14 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/signup")
-    public ResponseEntity<UserResponseDto> registerNewUserHandler(@RequestBody @Valid UserRegisterDto userRegisterDto) {
+    public ResponseEntity<UserRegisterResponseDto> registerNewUserHandler(@RequestBody @Valid UserRegisterDto userRegisterDto) {
         User user = userService.registerNewUser(UserMapper.toUser(userRegisterDto));
-        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toDto(user));
+        return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.toRegisterResponseDto(user));
     }
 
     @GetMapping("/signin")
-    public ResponseEntity<User> signHandler(Authentication authentication) {
+    public ResponseEntity<UserResponseDto> signHandler(Authentication authentication) {
         User user = userService.findByEmail(authentication);
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(user);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(UserMapper.toResponseDto(user));
     }
 }
