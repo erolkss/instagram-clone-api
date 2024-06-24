@@ -16,6 +16,7 @@ import java.util.Objects;
 
 @Getter
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ErrorMessageException {
 
     private String path;
@@ -23,7 +24,6 @@ public class ErrorMessageException {
     private int status;
     private String statusText;
     private String message;
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Map<String, String> errors;
 
     public ErrorMessageException() {
@@ -44,6 +44,11 @@ public class ErrorMessageException {
         this.statusText = httpStatus.getReasonPhrase();
         this.message = message;
         addErrors(bindingResult, messageSource, httpServletRequest.getLocale());
+    }
+
+    public ErrorMessageException(HttpStatus status, String authenticationFailed) {
+        this.status = status.value();
+        this.message = authenticationFailed;
     }
 
     private void addErrors(BindingResult bindingResult, MessageSource messageSource, Locale locale) {
