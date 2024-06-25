@@ -21,7 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<UserResponseDto> findUserById(@PathVariable Integer id) {
+    public ResponseEntity<UserResponseDto> findUserByIdHandler(@PathVariable Integer id) {
         User user = userService.findUserById(id);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponseDto(user));
     }
@@ -62,6 +62,12 @@ public class UserController {
         MessageResponse messageResponse = new MessageResponse(response);
 
         return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
+    }
+
+    @GetMapping("/req")
+    public ResponseEntity<UserResponseDto> findUserProfileHandler(@RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponseDto(user));
     }
 
 }
