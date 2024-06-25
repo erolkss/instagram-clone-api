@@ -1,6 +1,7 @@
 package br.com.ero.instagram_web_api.services.impl;
 
 import br.com.ero.instagram_web_api.exceptions.UserEmailUniqueViolationException;
+import br.com.ero.instagram_web_api.exceptions.UserNotFoundException;
 import br.com.ero.instagram_web_api.exceptions.UsernameUniqueViolationException;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.repositories.UserRepository;
@@ -46,5 +47,12 @@ public class UserServiceImpl implements UserService {
             return optionalUser.get();
         }
         throw new BadCredentialsException("Invalid Username or Invalid Password");
+    }
+
+    @Override
+    public User findUserById(Integer id) {
+        Optional<User> optionalUser = userRepository.findById(id);
+        if (optionalUser.isPresent()) { return optionalUser.get(); }
+        throw new UserNotFoundException("No user with this id was found: " + id);
     }
 }
