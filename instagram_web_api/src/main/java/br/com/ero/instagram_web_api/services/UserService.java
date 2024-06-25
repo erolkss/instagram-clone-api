@@ -18,4 +18,8 @@ public interface UserService {
     List<User> findUserByIds(List<Integer> userIds);
 
     List<User> searchUser(String query);
+
+    User findUserProfile(String token);
+
+    String followUser(Integer reqUserId, Integer followUserId);
 }

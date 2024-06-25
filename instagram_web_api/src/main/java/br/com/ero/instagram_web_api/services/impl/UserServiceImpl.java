@@ -1,8 +1,10 @@
 package br.com.ero.instagram_web_api.services.impl;
 
-import br.com.ero.instagram_web_api.exceptions.UserEmailUniqueViolationException;
-import br.com.ero.instagram_web_api.exceptions.UserNotFoundException;
-import br.com.ero.instagram_web_api.exceptions.UsernameUniqueViolationException;
+import br.com.ero.instagram_web_api.dto.UserDto;
+import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
+import br.com.ero.instagram_web_api.exceptions.*;
+import br.com.ero.instagram_web_api.jwt.JwtTokenClaims;
+import br.com.ero.instagram_web_api.jwt.JwtTokenProvider;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.repositories.UserRepository;
 import br.com.ero.instagram_web_api.services.UserService;
@@ -21,6 +23,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenProvider jwtTokenProvider;
 
 
     @Override
@@ -80,5 +83,38 @@ public class UserServiceImpl implements UserService {
             throw new UserNotFoundException("User not Found");
         }
         return users;
+    }
+
+    @Override
+    public User findUserProfile(String token) {
+        JwtTokenClaims jwtTokenClaims = jwtTokenProvider.getClaimsFromToken(token.substring(7));
+        Optional<User> optionalUser = userRepository.findByEmail(jwtTokenClaims.getUsername());
+
+        if (optionalUser.isPresent()) {
+            return optionalUser.get();
+        }
+        throw new InvalidTokenException("Invalid Token");
+    }
+
+    @Override
+    public String followUser(Integer reqUserId, Integer followUserId) {
+        User reqUser = findUserById(reqUserId);
+        User followUser = findUserById(followUserId);
+
+        boolean alreadyFollowing = reqUser.getFollowing().stream().anyMatch(user -> user.getId().equals(followUserId));
+        if (alreadyFollowing) {
+            throw new AlreadyFollowingUseException("User [" + reqUser.getUsername() + "] already follows user [" + followUser.getUsername() +"]");
+        }
+
+        UserDto follower = UserMapper.toUserDto(reqUser);
+        UserDto following = UserMapper.toUserDto(followUser);
+
+        reqUser.getFollowing().add(following);
+        followUser.getFollower().add(follower);
+
+        userRepository.save(followUser);
+        userRepository.save(reqUser);
+
+        return "You are following " + followUser.getUsername();
     }
 }

@@ -1,9 +1,6 @@
 package br.com.ero.instagram_web_api.exceptions.handler;
 
-import br.com.ero.instagram_web_api.exceptions.EmailNoExistsException;
-import br.com.ero.instagram_web_api.exceptions.UserEmailUniqueViolationException;
-import br.com.ero.instagram_web_api.exceptions.UserNotFoundException;
-import br.com.ero.instagram_web_api.exceptions.UsernameUniqueViolationException;
+import br.com.ero.instagram_web_api.exceptions.*;
 import br.com.ero.instagram_web_api.exceptions.dto.ErrorMessageException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -21,8 +18,8 @@ import java.util.Map;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({UserEmailUniqueViolationException.class, UsernameUniqueViolationException.class})
-    public ResponseEntity<ErrorMessageException> useEmailUniqueViolationExceptionHandler(RuntimeException ex, HttpServletRequest request) {
+    @ExceptionHandler({UserEmailUniqueViolationException.class, UsernameUniqueViolationException.class, AlreadyFollowingUseException.class})
+    public ResponseEntity<ErrorMessageException> userUniqueViolationExceptionHandler(RuntimeException ex, HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CONFLICT)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -50,6 +47,14 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.NOT_FOUND)
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(new ErrorMessageException(request, HttpStatus.NOT_FOUND, ex.getMessage()));
+    }
+
+    @ExceptionHandler({InvalidTokenException.class})
+    public ResponseEntity<ErrorMessageException> invalidTokenExceptionHandler(RuntimeException ex, HttpServletRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(new ErrorMessageException(request, HttpStatus.BAD_REQUEST, ex.getMessage()));
     }
 
 }

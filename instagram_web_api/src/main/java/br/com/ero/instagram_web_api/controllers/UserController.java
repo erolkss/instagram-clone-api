@@ -2,6 +2,7 @@ package br.com.ero.instagram_web_api.controllers;
 
 
 import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
+import br.com.ero.instagram_web_api.dto.responsesdto.MessageResponse;
 import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.services.UserService;
@@ -42,4 +43,15 @@ public class UserController {
         List<User> users = userService.searchUser(query);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListResponseDto(users));
     }
+
+    @PutMapping("/follow/{followUserId}")
+    public ResponseEntity<MessageResponse> followUserHandler(@PathVariable Integer followUserId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        String response = userService.followUser(user.getId(), followUserId);
+
+        MessageResponse messageResponse = new MessageResponse(response);
+
+        return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
+    }
+
 }

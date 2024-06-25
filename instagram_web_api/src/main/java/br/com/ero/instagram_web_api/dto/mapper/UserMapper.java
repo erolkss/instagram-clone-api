@@ -1,5 +1,6 @@
 package br.com.ero.instagram_web_api.dto.mapper;
 
+import br.com.ero.instagram_web_api.dto.UserDto;
 import br.com.ero.instagram_web_api.dto.UserRegisterDto;
 import br.com.ero.instagram_web_api.dto.responsesdto.UserRegisterResponseDto;
 import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
@@ -25,6 +26,10 @@ public class UserMapper {
 
     public static List<UserResponseDto> toListResponseDto(List<User> users) {
         return users.stream().map(UserMapper::toResponseDto).collect(Collectors.toList());
+    }
+
+    public static UserDto toUserDto(User user) {
+        return new ModelMapper().map(user, UserDto.class);
     }
 
 
