@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,5 +66,10 @@ public class UserServiceImpl implements UserService {
             return optionalUser.get();
         }
         throw new UserNotFoundException("No user with this username was found: " + username);
+    }
+
+    @Override
+    public List<User> findUserByIds(List<Integer> userIds) {
+        return userRepository.findAllUsersByUserIds(userIds);
     }
 }

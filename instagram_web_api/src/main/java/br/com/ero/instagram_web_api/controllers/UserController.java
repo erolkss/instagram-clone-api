@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
@@ -30,5 +32,11 @@ public class UserController {
     public ResponseEntity<UserResponseDto> findUseByUsernameHandler(@PathVariable String username) {
         User user = userService.findUserByUsername(username);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponseDto(user));
+    }
+
+    @GetMapping("/m/{userIds}")
+    public ResponseEntity<List<UserResponseDto>> findUserByIdsHandler(@PathVariable List<Integer> userIds) {
+        List<User> users = userService.findUserByIds(userIds);
+        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListResponseDto(users));
     }
 }
