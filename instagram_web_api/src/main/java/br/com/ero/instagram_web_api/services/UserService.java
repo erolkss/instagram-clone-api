@@ -10,4 +10,6 @@ public interface UserService {
     User findByEmail (Authentication authentication);
 
     User findUserById(Integer id);
+
+    User findUserByUsername(String username);
 }

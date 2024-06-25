@@ -25,4 +25,10 @@ public class UserController {
         User user = userService.findUserById(id);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponseDto(user));
     }
+
+    @GetMapping("/username/{username}")
+    public ResponseEntity<UserResponseDto> findUseByUsernameHandler(@PathVariable String username) {
+        User user = userService.findUserByUsername(username);
+        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponseDto(user));
+    }
 }
