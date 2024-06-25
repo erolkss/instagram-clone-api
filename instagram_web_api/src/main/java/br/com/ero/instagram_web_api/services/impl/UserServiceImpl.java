@@ -72,4 +72,13 @@ public class UserServiceImpl implements UserService {
     public List<User> findUserByIds(List<Integer> userIds) {
         return userRepository.findAllUsersByUserIds(userIds);
     }
+
+    @Override
+    public List<User> searchUser(String query) {
+        List<User> users = userRepository.findByQuery(query);
+        if (users.isEmpty()) {
+            throw new UserNotFoundException("User not Found");
+        }
+        return users;
+    }
 }

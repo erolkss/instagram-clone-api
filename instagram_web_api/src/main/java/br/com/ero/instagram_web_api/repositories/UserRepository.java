@@ -22,4 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("SELECT u FROM User u WHERE u.id IN :users")
     List<User> findAllUsersByUserIds(@Param("users") List<Integer> userIds);
+
+    @Query("SELECT DISTINCT u FROM User u WHERE u.username LIKE %:query% OR u.email LIKE %:query%")
+    List<User> findByQuery(@Param("query") String query);
 }

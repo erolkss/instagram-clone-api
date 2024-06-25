@@ -8,10 +8,7 @@ import br.com.ero.instagram_web_api.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +34,12 @@ public class UserController {
     @GetMapping("/m/{userIds}")
     public ResponseEntity<List<UserResponseDto>> findUserByIdsHandler(@PathVariable List<Integer> userIds) {
         List<User> users = userService.findUserByIds(userIds);
+        return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListResponseDto(users));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UserResponseDto>> searchUserHandler(@RequestParam("q") String query) {
+        List<User> users = userService.searchUser(query);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toListResponseDto(users));
     }
 }
