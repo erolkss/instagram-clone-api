@@ -117,4 +117,21 @@ public class UserServiceImpl implements UserService {
 
         return "You are following " + followUser.getUsername();
     }
+
+    @Override
+    public String unfollowUser(Integer reqUserId, Integer followUserId) {
+        User reqUser = findUserById(reqUserId);
+        User followUser = findUserById(followUserId);
+
+        UserDto follower = UserMapper.toUserDto(reqUser);
+        UserDto following = UserMapper.toUserDto(followUser);
+
+        reqUser.getFollowing().remove(following);
+        followUser.getFollower().remove(follower);
+
+        userRepository.save(followUser);
+        userRepository.save(reqUser);
+
+        return "You have unfollowed " + followUser.getUsername();
+    }
 }

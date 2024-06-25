@@ -54,4 +54,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
     }
 
+    @PutMapping("/unfollow/{userId}")
+    public ResponseEntity<MessageResponse> unfollowUserHandler(@PathVariable Integer userId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        String response = userService.unfollowUser(user.getId(), userId);
+
+        MessageResponse messageResponse = new MessageResponse(response);
+
+        return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
+    }
+
 }

@@ -22,4 +22,6 @@ public interface UserService {
     User findUserProfile(String token);
 
     String followUser(Integer reqUserId, Integer followUserId);
+
+    String unfollowUser(Integer reqUserId, Integer followUserId);
 }
