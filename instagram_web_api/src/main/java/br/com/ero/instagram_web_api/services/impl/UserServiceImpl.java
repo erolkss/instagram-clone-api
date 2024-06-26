@@ -139,7 +139,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserDetails(UserUpdateDto updateUser, User existingUser) {
         try {
-            if (updateUser.getEmail() != null) existingUser.setEmail(updateUser.getEmail());
             if (updateUser.getBio() != null) existingUser.setBio(updateUser.getBio());
             if (updateUser.getName() != null) existingUser.setName(updateUser.getName());
             if (updateUser.getUsername() != null) existingUser.setUsername(updateUser.getUsername());
