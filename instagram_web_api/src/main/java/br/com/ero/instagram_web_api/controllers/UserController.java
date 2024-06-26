@@ -83,7 +83,7 @@ public class UserController {
     }
 
     @PatchMapping("/account/update_password")
-    public ResponseEntity<Void> updateUserPassword(@RequestHeader("Authorization") String token,
+    public ResponseEntity<Void> updateUserPasswordHandler(@RequestHeader("Authorization") String token,
                                                    @Valid @RequestBody UserUpdatePasswordDto passwordDto) {
         User user = userService.findUserProfile(token);
         userService.updatePassword(
