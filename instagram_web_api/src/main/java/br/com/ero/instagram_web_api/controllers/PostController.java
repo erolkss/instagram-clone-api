@@ -3,6 +3,7 @@ package br.com.ero.instagram_web_api.controllers;
 import br.com.ero.instagram_web_api.dto.PostCreateDto;
 import br.com.ero.instagram_web_api.dto.PostCreateResponseDto;
 import br.com.ero.instagram_web_api.dto.mapper.PostMapper;
+import br.com.ero.instagram_web_api.dto.responsesdto.MessageResponse;
 import br.com.ero.instagram_web_api.modal.Post;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.services.PostService;
@@ -59,8 +60,15 @@ public class PostController {
     @PutMapping("/unlike/{postId}")
     public ResponseEntity<PostCreateResponseDto> unlikePostHandler(@PathVariable Integer postId, @RequestHeader("Authorization") String token) {
         User user = userService.findUserProfile(token);
-        Post likedPost = postService.unlikePost(postId, user.getId());
-        return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(likedPost));
+        Post unlikedPost = postService.unlikePost(postId, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(unlikedPost));
 
+    }
+
+    @DeleteMapping("/delete/{postId}")
+    public ResponseEntity<Void> deletePostHandler(@PathVariable Integer postId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        postService.deletePost(postId, user.getId());
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

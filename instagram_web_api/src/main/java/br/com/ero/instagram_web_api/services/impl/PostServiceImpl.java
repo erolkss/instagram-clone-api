@@ -86,4 +86,19 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(post);
     }
+
+    @Override
+    public void deletePost(Integer postId, Integer userId) {
+        try {
+            Post post = findPostById(postId);
+            User user = userService.findUserById(userId);
+
+            if (post.getUser().getId().equals(user.getId())) {
+                postRepository.deleteById(post.getId());
+            }
+        } catch (PostNotFoundException ex) {
+            throw new PostNotFoundException("You can't delete other user's post!");
+        }
+
+    }
 }
