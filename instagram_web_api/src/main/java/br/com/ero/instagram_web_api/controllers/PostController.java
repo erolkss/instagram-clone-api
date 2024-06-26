@@ -46,6 +46,13 @@ public class PostController {
     public ResponseEntity<PostCreateResponseDto> findPostByIdHandler(@PathVariable("postId") Integer postId) {
         Post post = postService.findPostById(postId);
         return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(post));
+    }
+
+    @PutMapping("/like/{postId}")
+    public ResponseEntity<PostCreateResponseDto> likePostHandler(@PathVariable Integer postId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        Post likedPost = postService.likePost(postId, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(likedPost));
 
     }
 }

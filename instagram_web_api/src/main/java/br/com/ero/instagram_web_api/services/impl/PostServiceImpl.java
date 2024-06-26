@@ -62,4 +62,16 @@ public class PostServiceImpl implements PostService {
         if (optionalPost.isPresent()) return optionalPost.get();
         throw new PostNotFoundException("Post not found with id: " + postId);
     }
+
+    @Override
+    public Post likePost(Integer postId, Integer userId) {
+        Post post = findPostById(postId);
+        User user = userService.findUserById(userId);
+
+        UserDto userDto = UserMapper.toUserDto(user);
+
+        post.getLikeByUsers().add(userDto);
+
+        return postRepository.save(post);
+    }
 }
