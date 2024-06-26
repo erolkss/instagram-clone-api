@@ -71,4 +71,13 @@ public class PostController {
         postService.deletePost(postId, user.getId());
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
+    @PutMapping("/save_post/{postId}")
+    public ResponseEntity<MessageResponse> savedPostHandler(@PathVariable Integer postId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        String message = postService.savedPost(postId, user.getId());
+
+        MessageResponse messageResponse = new MessageResponse(message);
+        return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
+    }
 }

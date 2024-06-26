@@ -19,4 +19,6 @@ public interface PostService {
     Post unlikePost(Integer postId, Integer userId);
 
     void deletePost(Integer postId, Integer userId);
+
+    String savedPost(Integer postId, Integer userId);
 }

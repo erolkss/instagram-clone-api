@@ -9,6 +9,7 @@ import br.com.ero.instagram_web_api.exceptions.UserNotFoundException;
 import br.com.ero.instagram_web_api.modal.Post;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.repositories.PostRepository;
+import br.com.ero.instagram_web_api.repositories.UserRepository;
 import br.com.ero.instagram_web_api.services.PostService;
 import br.com.ero.instagram_web_api.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,7 @@ public class PostServiceImpl implements PostService {
 
     private final PostRepository postRepository;
     private final UserService userService;
+    private final UserRepository userRepository;
 
     @Override
     public Post createNewPost(PostCreateDto postCreateDto, Integer userId) {
@@ -59,7 +61,9 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post findPostById(Integer postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
-        if (optionalPost.isPresent()) return optionalPost.get();
+        if (optionalPost.isPresent()){
+            return optionalPost.get();
+        }
         throw new PostNotFoundException("Post not found with id: " + postId);
     }
 
@@ -100,5 +104,17 @@ public class PostServiceImpl implements PostService {
             throw new PostNotFoundException("You can't delete other user's post!");
         }
 
+    }
+
+    @Override
+    public String savedPost(Integer postId, Integer userId) {
+        Post post = findPostById(postId);
+        User user = userService.findUserById(userId);
+
+        if (!user.getSavedPost().contains(post)) {
+            user.getSavedPost().add(post);
+            userRepository.save(user);
+        }
+        return "Post Save Successfully";
     }
 }
