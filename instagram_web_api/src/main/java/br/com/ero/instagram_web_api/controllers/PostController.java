@@ -55,4 +55,12 @@ public class PostController {
         return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(likedPost));
 
     }
+
+    @PutMapping("/unlike/{postId}")
+    public ResponseEntity<PostCreateResponseDto> unlikePostHandler(@PathVariable Integer postId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        Post likedPost = postService.unlikePost(postId, user.getId());
+        return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(likedPost));
+
+    }
 }

@@ -74,4 +74,16 @@ public class PostServiceImpl implements PostService {
 
         return postRepository.save(post);
     }
+
+    @Override
+    public Post unlikePost(Integer postId, Integer userId) {
+        Post post = findPostById(postId);
+        User user = userService.findUserById(userId);
+
+        UserDto userDto = UserMapper.toUserDto(user);
+
+        post.getLikeByUsers().remove(userDto);
+
+        return postRepository.save(post);
+    }
 }

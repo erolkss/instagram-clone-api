@@ -15,4 +15,6 @@ public interface PostService {
     Post findPostById(Integer postId);
 
     Post likePost(Integer postId, Integer userId);
+
+    Post unlikePost(Integer postId, Integer userId);
 }
