@@ -1,15 +1,19 @@
 package br.com.ero.instagram_web_api.controllers;
 
 
+import br.com.ero.instagram_web_api.dto.UserDto;
 import br.com.ero.instagram_web_api.dto.UserUpdateDto;
+import br.com.ero.instagram_web_api.dto.UserUpdatePasswordDto;
 import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
 import br.com.ero.instagram_web_api.dto.responsesdto.MessageResponse;
 import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
 import br.com.ero.instagram_web_api.modal.User;
 import br.com.ero.instagram_web_api.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -78,5 +82,17 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
+    @PatchMapping("/account/update_password")
+    public ResponseEntity<Void> updateUserPassword(@RequestHeader("Authorization") String token,
+                                                   @Valid @RequestBody UserUpdatePasswordDto passwordDto) {
+        User user = userService.findUserProfile(token);
+        userService.updatePassword(
+                user.getId(),
+                passwordDto.getCurrentPassword(),
+                passwordDto.getNewPassword(),
+                passwordDto.getConfirmPassword());
+
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 
 }

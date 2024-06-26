@@ -154,4 +154,19 @@ public class UserServiceImpl implements UserService {
             throw new UserNotAllowedException("You can update this User");
         }
     }
+
+    @Override
+    public void updatePassword(Integer id, String currentPassword, String newPassword, String confirmPassword) {
+        if (!newPassword.equals(confirmPassword)) {
+            throw new PasswordInvalidException("New password and password confirmation don't match");
+        }
+
+        User user = findUserById(id);
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            throw new PasswordInvalidException("Incorrect current password");
+        }
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+    }
 }
