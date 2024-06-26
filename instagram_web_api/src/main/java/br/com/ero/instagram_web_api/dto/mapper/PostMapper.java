@@ -2,8 +2,13 @@ package br.com.ero.instagram_web_api.dto.mapper;
 
 import br.com.ero.instagram_web_api.dto.PostCreateDto;
 import br.com.ero.instagram_web_api.dto.PostCreateResponseDto;
+import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
 import br.com.ero.instagram_web_api.modal.Post;
+import br.com.ero.instagram_web_api.modal.User;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class PostMapper {
     public static Post toPost(PostCreateDto postCreateDto) {
@@ -12,5 +17,9 @@ public class PostMapper {
 
     public static PostCreateResponseDto toResponseCreateDto(Post post) {
         return new ModelMapper().map(post, PostCreateResponseDto.class);
+    }
+
+    public static List<PostCreateResponseDto> toListResponseDto(List<Post> posts) {
+        return posts.stream().map(PostMapper::toResponseCreateDto).collect(Collectors.toList());
     }
 }
