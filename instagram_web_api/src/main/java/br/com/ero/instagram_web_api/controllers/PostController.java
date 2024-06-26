@@ -41,4 +41,11 @@ public class PostController {
         List<Post> posts = postService.findAllPostByUserIds(userIds);
         return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toListResponseDto(posts));
     }
+
+    @GetMapping("/{postId}")
+    public ResponseEntity<PostCreateResponseDto> findPostByIdHandler(@PathVariable("postId") Integer postId) {
+        Post post = postService.findPostById(postId);
+        return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toResponseCreateDto(post));
+
+    }
 }
