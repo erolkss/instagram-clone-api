@@ -35,4 +35,10 @@ public class PostController {
         List<Post> posts = postService.findPostByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toListResponseDto(posts));
     }
+
+    @GetMapping("/following/{ids}")
+    public ResponseEntity<List<PostCreateResponseDto>> findAllPostByUserIdsHandler(@PathVariable("ids") List<Integer> userIds) {
+        List<Post> posts = postService.findAllPostByUserIds(userIds);
+        return ResponseEntity.status(HttpStatus.OK).body(PostMapper.toListResponseDto(posts));
+    }
 }

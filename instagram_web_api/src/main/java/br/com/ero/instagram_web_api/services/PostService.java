@@ -9,4 +9,6 @@ public interface PostService {
     Post createNewPost(PostCreateDto post, Integer userId);
 
     List<Post> findPostByUserId(Integer userId);
+
+    List<Post> findAllPostByUserIds(List<Integer> userIds);
 }
