@@ -1,6 +1,7 @@
 package br.com.ero.instagram_web_api.controllers;
 
 
+import br.com.ero.instagram_web_api.dto.UserUpdateDto;
 import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
 import br.com.ero.instagram_web_api.dto.responsesdto.MessageResponse;
 import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
@@ -69,5 +70,13 @@ public class UserController {
         User user = userService.findUserProfile(token);
         return ResponseEntity.status(HttpStatus.OK).body(UserMapper.toResponseDto(user));
     }
+
+    @PutMapping("/account/edit")
+    public ResponseEntity<Void> updateUserHandler(@RequestHeader("Authorization") String token, @RequestBody UserUpdateDto updateDto) {
+        User reqUser = userService.findUserProfile(token);
+        userService.updateUserDetails(updateDto, reqUser);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
 
 }

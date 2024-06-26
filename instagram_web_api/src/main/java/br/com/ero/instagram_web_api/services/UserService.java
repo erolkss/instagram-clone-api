@@ -1,5 +1,6 @@
 package br.com.ero.instagram_web_api.services;
 
+import br.com.ero.instagram_web_api.dto.UserUpdateDto;
 import br.com.ero.instagram_web_api.modal.User;
 import org.springframework.security.core.Authentication;
 
@@ -24,4 +25,7 @@ public interface UserService {
     String followUser(Integer reqUserId, Integer followUserId);
 
     String unfollowUser(Integer reqUserId, Integer followUserId);
+
+    void updateUserDetails(UserUpdateDto updateDto, User existingUser);
+
 }

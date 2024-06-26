@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
                 .body(new ErrorMessageException(request, HttpStatus.NOT_FOUND, ex.getMessage()));
     }
 
-    @ExceptionHandler({InvalidTokenException.class})
+    @ExceptionHandler({InvalidTokenException.class, UserNotAllowedException.class})
     public ResponseEntity<ErrorMessageException> invalidTokenExceptionHandler(RuntimeException ex, HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)

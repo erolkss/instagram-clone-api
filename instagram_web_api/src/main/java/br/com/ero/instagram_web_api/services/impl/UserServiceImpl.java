@@ -1,6 +1,7 @@
 package br.com.ero.instagram_web_api.services.impl;
 
 import br.com.ero.instagram_web_api.dto.UserDto;
+import br.com.ero.instagram_web_api.dto.UserUpdateDto;
 import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
 import br.com.ero.instagram_web_api.exceptions.*;
 import br.com.ero.instagram_web_api.jwt.JwtTokenClaims;
@@ -103,7 +104,7 @@ public class UserServiceImpl implements UserService {
 
         boolean alreadyFollowing = reqUser.getFollowing().stream().anyMatch(user -> user.getId().equals(followUserId));
         if (alreadyFollowing) {
-            throw new AlreadyFollowingUseException("User [" + reqUser.getUsername() + "] already follows user [" + followUser.getUsername() +"]");
+            throw new AlreadyFollowingUseException("User [" + reqUser.getUsername() + "] already follows user [" + followUser.getUsername() + "]");
         }
 
         UserDto follower = UserMapper.toUserDto(reqUser);
@@ -133,5 +134,24 @@ public class UserServiceImpl implements UserService {
         userRepository.save(reqUser);
 
         return "You have unfollowed " + followUser.getUsername();
+    }
+
+    @Override
+    public void updateUserDetails(UserUpdateDto updateUser, User existingUser) {
+        try {
+            if (updateUser.getEmail() != null) existingUser.setEmail(updateUser.getEmail());
+            if (updateUser.getBio() != null) existingUser.setBio(updateUser.getBio());
+            if (updateUser.getName() != null) existingUser.setName(updateUser.getName());
+            if (updateUser.getUsername() != null) existingUser.setUsername(updateUser.getUsername());
+            if (updateUser.getMobile() != null) existingUser.setMobile(updateUser.getMobile());
+            if (updateUser.getGender() != null) existingUser.setGender(updateUser.getGender());
+            if (updateUser.getWebsite() != null) existingUser.setWebsite(updateUser.getWebsite());
+            if (updateUser.getImage() != null) existingUser.setImage(updateUser.getImage());
+
+            userRepository.save(existingUser);
+
+        } catch (UserNotAllowedException exception) {
+            throw new UserNotAllowedException("You can update this User");
+        }
     }
 }
