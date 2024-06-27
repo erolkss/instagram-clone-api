@@ -61,7 +61,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Post findPostById(Integer postId) {
         Optional<Post> optionalPost = postRepository.findById(postId);
-        if (optionalPost.isPresent()){
+        if (optionalPost.isPresent()) {
             return optionalPost.get();
         }
         throw new PostNotFoundException("Post not found with id: " + postId);
@@ -116,5 +116,18 @@ public class PostServiceImpl implements PostService {
             userRepository.save(user);
         }
         return "Post Save Successfully";
+    }
+
+    @Override
+    public String unSavedPost(Integer postId, Integer userId) {
+        Post post = findPostById(postId);
+        User user = userService.findUserById(userId);
+
+        if (user.getSavedPost().contains(post)) {
+            user.getSavedPost().remove(post);
+            userRepository.save(user);
+            return "The post was successfully removed from the saved";
+        }
+        throw new PostNotFoundException("Error");
     }
 }

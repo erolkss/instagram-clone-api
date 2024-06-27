@@ -21,4 +21,6 @@ public interface PostService {
     void deletePost(Integer postId, Integer userId);
 
     String savedPost(Integer postId, Integer userId);
+
+    String unSavedPost(Integer postId, Integer userId);
 }

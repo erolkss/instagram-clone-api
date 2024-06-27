@@ -80,4 +80,13 @@ public class PostController {
         MessageResponse messageResponse = new MessageResponse(message);
         return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
     }
+
+    @PutMapping("/unsave_post/{postId}")
+    public ResponseEntity<MessageResponse> unsavedPostHandler(@PathVariable Integer postId, @RequestHeader("Authorization") String token) {
+        User user = userService.findUserProfile(token);
+        String message = postService.unSavedPost(postId, user.getId());
+
+        MessageResponse messageResponse = new MessageResponse(message);
+        return ResponseEntity.status(HttpStatus.OK).body(messageResponse);
+    }
 }
