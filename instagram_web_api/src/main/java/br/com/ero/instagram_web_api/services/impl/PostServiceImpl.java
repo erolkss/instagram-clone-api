@@ -114,8 +114,9 @@ public class PostServiceImpl implements PostService {
         if (!user.getSavedPost().contains(post)) {
             user.getSavedPost().add(post);
             userRepository.save(user);
+            return "Post Save Successfully";
         }
-        return "Post Save Successfully";
+        throw new PostNotFoundException("Error trying to save the post in 'saved'");
     }
 
     @Override
