@@ -41,7 +41,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({EmailNoExistsException.class, UserNotFoundException.class, PostNotFoundException.class, CommentNotFoundException.class})
+    @ExceptionHandler({EmailNoExistsException.class, UserNotFoundException.class, PostNotFoundException.class, CommentNotFoundException.class, StoryNotFoundException.class})
     public ResponseEntity<ErrorMessageException> notFoundExceptionHandler(RuntimeException ex, HttpServletRequest request) {
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)

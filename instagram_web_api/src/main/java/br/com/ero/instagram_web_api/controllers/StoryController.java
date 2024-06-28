@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/stories")
 @RequiredArgsConstructor
@@ -26,5 +28,13 @@ public class StoryController {
         Story createdStory = storyService.createStory(StoryMapper.toStory(story), user.getId());
 
         return ResponseEntity.status(HttpStatus.OK).body(StoryMapper.toStoryResponseDto(createdStory));
+    }
+
+    @GetMapping("/{userId}")
+    public ResponseEntity<List<StoryResponseDto>> findAllStoryByUserIdHandler(@PathVariable Integer userId) {
+        userService.findUserById(userId);
+        List<Story> stories = storyService.findStoryByUserId(userId);
+
+        return ResponseEntity.status(HttpStatus.OK).body(StoryMapper.toListResponseDto(stories));
     }
 }
