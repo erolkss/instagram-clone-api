@@ -30,4 +30,13 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(CommentMapper.toCommentResponseDto(createdComment));
     }
 
+    @PutMapping("/like/{commentId}")
+    public ResponseEntity<CommentResponseDto> likeCommentHandler(@RequestHeader("Authorization") String token, @PathVariable Integer commentId) {
+        User user = userService.findUserProfile(token);
+        Comment comment = commentService.likeComment(commentId, user.getId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(CommentMapper.toCommentResponseDto(comment));
+    }
+
+
 }

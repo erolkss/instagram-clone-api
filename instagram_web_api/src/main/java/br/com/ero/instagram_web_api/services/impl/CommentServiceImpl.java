@@ -2,6 +2,7 @@ package br.com.ero.instagram_web_api.services.impl;
 
 import br.com.ero.instagram_web_api.dto.UserDto;
 import br.com.ero.instagram_web_api.dto.mapper.UserMapper;
+import br.com.ero.instagram_web_api.exceptions.CommentNotFoundException;
 import br.com.ero.instagram_web_api.modal.Comment;
 import br.com.ero.instagram_web_api.modal.Post;
 import br.com.ero.instagram_web_api.modal.User;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,5 +43,26 @@ public class CommentServiceImpl implements CommentService {
         postRepository.save(post);
 
         return createdComment;
+    }
+
+    @Override
+    public Comment likeComment(Integer commentId, Integer userId) {
+        User user = userService.findUserById(userId);
+        Comment comment = findCommentById(commentId);
+
+        UserDto userDto = UserMapper.toUserDto(user);
+
+        comment.getLikedByUsers().add(userDto);
+
+        return commentRepository.save(comment);
+    }
+
+    @Override
+    public Comment findCommentById(Integer commentId) {
+        Optional<Comment> optionalComment = commentRepository.findById(commentId);
+        if (optionalComment.isPresent()) {
+            return optionalComment.get();
+        }
+        throw new CommentNotFoundException("Comment is Not exist with id: " + commentId);
     }
 }
