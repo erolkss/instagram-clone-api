@@ -8,4 +8,6 @@ public interface CommentService {
     Comment likeComment(Integer commentId, Integer userId);
 
     Comment findCommentById(Integer commentId);
+
+    Comment unlikeComment(Integer commentId, Integer userId);
 }

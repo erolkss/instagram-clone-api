@@ -65,4 +65,16 @@ public class CommentServiceImpl implements CommentService {
         }
         throw new CommentNotFoundException("Comment is Not exist with id: " + commentId);
     }
+
+    @Override
+    public Comment unlikeComment(Integer commentId, Integer userId) {
+        User user = userService.findUserById(userId);
+        Comment comment = findCommentById(commentId);
+
+        UserDto userDto = UserMapper.toUserDto(user);
+
+        comment.getLikedByUsers().remove(userDto);
+
+        return commentRepository.save(comment);
+    }
 }

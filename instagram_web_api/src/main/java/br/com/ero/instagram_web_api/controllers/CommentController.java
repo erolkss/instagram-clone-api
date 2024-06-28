@@ -38,5 +38,14 @@ public class CommentController {
         return ResponseEntity.status(HttpStatus.OK).body(CommentMapper.toCommentResponseDto(comment));
     }
 
+    @PutMapping("/unlike/{commentId}")
+    public ResponseEntity<CommentResponseDto> unlikeCommentHandler(@RequestHeader("Authorization") String token, @PathVariable Integer commentId) {
+        User user = userService.findUserProfile(token);
+        Comment comment = commentService.unlikeComment(commentId, user.getId());
+
+        return ResponseEntity.status(HttpStatus.OK).body(CommentMapper.toCommentResponseDto(comment));
+
+    }
+
 
 }
