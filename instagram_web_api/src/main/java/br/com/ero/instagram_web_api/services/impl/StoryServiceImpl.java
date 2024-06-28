@@ -39,9 +39,9 @@ public class StoryServiceImpl implements StoryService {
         User user = userService.findUserById(userId);
         List<Story> stories = user.getStories();
 
-        if (stories.isEmpty()) {
-            throw new StoryNotFoundException("This user doesn't have any story.");
+        if (!stories.isEmpty()) {
+            return stories;
         }
-        return stories;
+        throw new StoryNotFoundException("This user doesn't have any story.");
     }
 }
