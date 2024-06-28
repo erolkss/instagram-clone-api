@@ -25,6 +25,14 @@ public class SpringSecurityConfig {
     @Qualifier("customAuthenticationEntryPoint")
     AuthenticationEntryPoint authEntryPoint;
 
+    private static final String[] DOCUMENTATION_OPENAPI = {
+            "/docs/index/html",
+            "/docs-park.html", "/docs-park/**",
+            "/v3/api-docs/**",
+            "/swagger-ui-custom.hmtl", "/swagger-ui.html", "/swagger-ui/**",
+            "/**.html", "/webjars/**", "/configuration/**", "/swagger-resources/**"
+    };
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
@@ -35,6 +43,7 @@ public class SpringSecurityConfig {
                 .httpBasic(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/signup").permitAll()
+                        .requestMatchers(DOCUMENTATION_OPENAPI).permitAll()
                         .anyRequest().authenticated()
                 ).sessionManagement(
                         session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
