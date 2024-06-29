@@ -1,10 +1,8 @@
 package br.com.ero.instagram_web_api.dto.mapper;
 
 import br.com.ero.instagram_web_api.dto.PostCreateDto;
-import br.com.ero.instagram_web_api.dto.PostCreateResponseDto;
-import br.com.ero.instagram_web_api.dto.responsesdto.UserResponseDto;
+import br.com.ero.instagram_web_api.dto.responsesdto.PostCreateResponseDto;
 import br.com.ero.instagram_web_api.modal.Post;
-import br.com.ero.instagram_web_api.modal.User;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;

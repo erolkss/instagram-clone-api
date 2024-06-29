@@ -1,7 +1,7 @@
 package br.com.ero.instagram_web_api.dto.mapper;
 
 import br.com.ero.instagram_web_api.dto.CommentCreateDto;
-import br.com.ero.instagram_web_api.dto.CommentResponseDto;
+import br.com.ero.instagram_web_api.dto.responsesdto.CommentResponseDto;
 import br.com.ero.instagram_web_api.modal.Comment;
 import org.modelmapper.ModelMapper;
 

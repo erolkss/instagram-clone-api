@@ -1,7 +1,7 @@
 package br.com.ero.instagram_web_api.controllers;
 
 import br.com.ero.instagram_web_api.dto.PostCreateDto;
-import br.com.ero.instagram_web_api.dto.PostCreateResponseDto;
+import br.com.ero.instagram_web_api.dto.responsesdto.PostCreateResponseDto;
 import br.com.ero.instagram_web_api.dto.mapper.PostMapper;
 import br.com.ero.instagram_web_api.dto.responsesdto.MessageResponse;
 import br.com.ero.instagram_web_api.exceptions.dto.ErrorMessageException;

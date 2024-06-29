@@ -1,5 +1,6 @@
-package br.com.ero.instagram_web_api.dto;
+package br.com.ero.instagram_web_api.dto.responsesdto;
 
+import br.com.ero.instagram_web_api.dto.UserDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;

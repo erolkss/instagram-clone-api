@@ -1,7 +1,7 @@
 package br.com.ero.instagram_web_api.controllers;
 
 import br.com.ero.instagram_web_api.dto.CommentCreateDto;
-import br.com.ero.instagram_web_api.dto.CommentResponseDto;
+import br.com.ero.instagram_web_api.dto.responsesdto.CommentResponseDto;
 import br.com.ero.instagram_web_api.dto.mapper.CommentMapper;
 import br.com.ero.instagram_web_api.exceptions.dto.ErrorMessageException;
 import br.com.ero.instagram_web_api.modal.Comment;
