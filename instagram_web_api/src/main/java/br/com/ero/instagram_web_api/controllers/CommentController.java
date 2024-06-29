@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class CommentController {
             }
     )
     @PostMapping("/create/{postId}")
-    public ResponseEntity<CommentResponseDto> createCommentHandler(@RequestBody CommentCreateDto commentCreateDto, @PathVariable Integer postId, @Parameter(hidden = true) @RequestHeader("Authorization") String token) {
+    public ResponseEntity<CommentResponseDto> createCommentHandler(@Valid @RequestBody CommentCreateDto commentCreateDto, @PathVariable Integer postId, @Parameter(hidden = true) @RequestHeader("Authorization") String token) {
         User user = userService.findUserProfile(token);
         Comment createdComment = commentService.createComment(CommentMapper.toComment(commentCreateDto), postId, user.getId());
 

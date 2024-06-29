@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,7 @@ public class StoryController {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<StoryResponseDto> createStoryHandler(@RequestBody StoryCreateDto story, @Parameter(hidden = true) @RequestHeader("Authorization") String token) {
+    public ResponseEntity<StoryResponseDto> createStoryHandler(@Valid @RequestBody StoryCreateDto story, @Parameter(hidden = true) @RequestHeader("Authorization") String token) {
         User user = userService.findUserProfile(token);
         Story createdStory = storyService.createStory(StoryMapper.toStory(story), user.getId());
 
