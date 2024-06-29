@@ -27,7 +27,7 @@ public class SpringSecurityConfig {
 
     private static final String[] DOCUMENTATION_OPENAPI = {
             "/docs/index/html",
-            "/docs-park.html", "/docs-park/**",
+            "/docs-instagram-clone.html", "/docs-instagram-clone/**",
             "/v3/api-docs/**",
             "/swagger-ui-custom.hmtl", "/swagger-ui.html", "/swagger-ui/**",
             "/**.html", "/webjars/**", "/configuration/**", "/swagger-resources/**"
