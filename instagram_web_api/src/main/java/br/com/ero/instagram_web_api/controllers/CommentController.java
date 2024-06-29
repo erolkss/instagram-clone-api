@@ -2,12 +2,10 @@ package br.com.ero.instagram_web_api.controllers;
 
 import br.com.ero.instagram_web_api.dto.CommentCreateDto;
 import br.com.ero.instagram_web_api.dto.CommentResponseDto;
-import br.com.ero.instagram_web_api.dto.PostCreateResponseDto;
 import br.com.ero.instagram_web_api.dto.mapper.CommentMapper;
 import br.com.ero.instagram_web_api.exceptions.dto.ErrorMessageException;
 import br.com.ero.instagram_web_api.modal.Comment;
 import br.com.ero.instagram_web_api.modal.User;
-import br.com.ero.instagram_web_api.repositories.CommentRepository;
 import br.com.ero.instagram_web_api.services.CommentService;
 import br.com.ero.instagram_web_api.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,10 +31,10 @@ public class CommentController {
 
 
     @Operation(
-            summary = "Create a a comment in a post", description = "Request requires a bearer Token",
+            summary = "Create a comment in a post", description = "Request requires a bearer Token",
             security = @SecurityRequirement(name = "security"),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Added comment to the post", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PostCreateResponseDto.class))),
+                    @ApiResponse(responseCode = "200", description = "Added comment to the post", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentResponseDto.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication Failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessageException.class)))
 
             }
@@ -53,7 +51,7 @@ public class CommentController {
             summary = "Like Comment a post", description = "Request requires a bearer Token",
             security = @SecurityRequirement(name = "security"),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "The like was successful", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PostCreateResponseDto.class))),
+                    @ApiResponse(responseCode = "200", description = "The like was successful", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentResponseDto.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication Failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessageException.class))),
                     @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessageException.class))),
 
@@ -71,7 +69,7 @@ public class CommentController {
             summary = "Unlike Comment a post", description = "Request requires a bearer Token",
             security = @SecurityRequirement(name = "security"),
             responses = {
-                    @ApiResponse(responseCode = "200", description = "The unlike was successful", content = @Content(mediaType = "application/json", schema = @Schema(implementation = PostCreateResponseDto.class))),
+                    @ApiResponse(responseCode = "200", description = "The unlike was successful", content = @Content(mediaType = "application/json", schema = @Schema(implementation = CommentResponseDto.class))),
                     @ApiResponse(responseCode = "401", description = "Authentication Failed", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessageException.class))),
                     @ApiResponse(responseCode = "404", description = "Comment not found", content = @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorMessageException.class))),
 
